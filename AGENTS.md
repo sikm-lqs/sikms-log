@@ -27,6 +27,8 @@ Do not assume there is a backend, database, auth system, CMS, or upload service.
 - Install: `npm install`
 - Dev server: `npm run dev`
 - Build: `npm run build`
+- Type check: `npm run type-check` (`@types/node` is a dev dependency; `node` types are explicitly enabled)
+- TOC logic tests: `npm test`
 - Preview build: `npm run preview`
 - Astro CLI: `npm run astro`
 
@@ -43,13 +45,14 @@ Implemented:
 - Three public content channels: `writing`, `projects`, `life`
 - Blog pages are driven by the `writing` collection, which carries technical articles, paper notes, and engineering thoughts
 - List and detail pages for each public channel
+- Automatic reading TOC on writing/life detail pages: h2 sections (h3 fallback), sticky left sidebar at >=1280px, collapsible inline navigation below that, active-section tracking; omitted when no eligible headings exist
 - Guestbook and friends/link placeholder pages
 - Chinese routes under `/` and English routes under `/en`
 - Language switching based on `translationKey`
 - Fallback to the target-language collection page when a translation is missing
 - Explicit light/dark theme switching
 - Home page data queries for latest projects, latest blog entries, and life notes
-- Single-column home layout with a hero (avatar, English welcome title, bio, social links) followed by latest Writing / Projects / Life sections
+- Single-column home layout with a hero (English welcome title, bio, social links) followed by latest Writing / Projects / Life sections; avatar lives in the header brand
 - Header brand (28px avatar + "Sikm") and a hamburger mobile menu below 768px (dropdown panel, ESC/outside-click/resize to close)
 - Warm editorial visual system based on paper tones, sans typography, hairline dividers, and restrained flat rows
 - Icon-based social links; the GitHub profile is `https://github.com/sikm-lqs`
@@ -59,7 +62,7 @@ Known next priorities:
 
 - Replace placeholder profile and cover images with real assets
 - Add more real blog, project, and life content
-- Fill in GitHub / Email / social links
+- Fill in Email and remaining contact links (GitHub / Bilibili / X are configured)
 - Add basic SEO support such as sitemap, robots, and Open Graph metadata
 - Continue mobile and visual polish
 
@@ -104,12 +107,14 @@ Content collections are defined in `src/content.config.ts`.
 - The public Blog route is `/writing`; it serves the `writing` collection
 - `projects` adds `status`, `stack`, `repoUrl`, `demoUrl`, and `caseStudyUrl`
 - Supported languages are `zh-CN` and `en`
-- `draft: true` excludes content from public lists and homepage sections
+- `draft: true` excludes content from generated detail pages, public lists, and homepage sections
 - `routeSlug` controls the public URL
 - `translationKey` pairs Chinese and English versions
 - A content item may be published in only one language first
 
-When adding content, follow `dev-docs/内容发布流程.md` and run `npm run build`.
+When adding content, follow `dev-docs/内容发布流程.md` and run `npm run type-check`, `npm test`, and `npm run build`.
+Word counts currently require an `.mdx` filename matching `routeSlug`; other Markdown filenames still generate valid routes.
+Remote repository: `git@github.com:sikm-lqs/sikms-log.git`. The documented deployment flow is Cloudflare Pages building `dist/` on pushes to `main`; verify the deployment in the Pages dashboard.
 
 ## Routing
 

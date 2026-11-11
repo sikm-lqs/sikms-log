@@ -24,6 +24,7 @@ type Dictionary = {
     }
   >;
   labels: {
+    onThisPage: string;
     updatedAt: string;
     more: string;
     menu: string;
@@ -86,6 +87,7 @@ export const ui: Record<SiteLang, Dictionary> = {
       },
     },
     labels: {
+      onThisPage: "本文目录",
       updatedAt: "更新于",
       more: "更多",
       menu: "菜单",
@@ -151,6 +153,7 @@ export const ui: Record<SiteLang, Dictionary> = {
       },
     },
     labels: {
+      onThisPage: "On this page",
       updatedAt: "Updated",
       more: "More",
       menu: "Menu",

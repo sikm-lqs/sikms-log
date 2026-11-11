@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import Container from "../components/layout/Container.astro";
+import type { MarkdownHeading } from "astro";
+import TableOfContents from "../components/content/TableOfContents.astro";
+import { getTocHeadings } from "../lib/content/headings";
 import { ui } from "../i18n/ui";
 import {
   formatDate,
@@ -23,6 +25,7 @@ interface Props {
   coverAlt?: string;
   backHref: string;
   wordCount?: number | string;
+  headings?: MarkdownHeading[];
 }
 
 const {
@@ -39,9 +42,11 @@ const {
   coverAlt = "",
   backHref,
   wordCount,
+  headings = [],
 } = Astro.props;
 
 const copy = ui[lang];
+const tocHeadings = getTocHeadings(headings);
 ---
 
 <BaseLayout
@@ -52,8 +57,8 @@ const copy = ui[lang];
   translationHref={translationHref}
 >
   <section class="pb-20 pt-14">
-    <Container>
-      <div>
+    <div class:list={["article-shell", { "has-toc": tocHeadings.length > 0 }]}>
+      <header class="article-header">
         <!-- 小型面包屑：首页 > 博客 (支持中英) -->
         <div class="flat-item-meta">
           <a href={lang === 'zh-CN' ? '/' : '/en'}>{lang === 'zh-CN' ? '首页' : 'Home'}</a>
@@ -84,10 +89,11 @@ const copy = ui[lang];
             class="mt-8 rounded-[1rem] border border-[var(--border-strong)] bg-[var(--surface)]"
           />
         )}
-        <article class="rich-content mt-10">
-          <slot />
-        </article>
-      </div>
-    </Container>
+      </header>
+      {tocHeadings.length > 0 && <TableOfContents headings={tocHeadings} lang={lang} />}
+      <article class="rich-content article-body">
+        <slot />
+      </article>
+    </div>
   </section>
 </BaseLayout>

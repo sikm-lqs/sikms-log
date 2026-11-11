@@ -1,6 +1,6 @@
 # MyWeb 项目沉淀文档
 
-更新时间：2026-09-16
+更新时间：2026-11-10
 
 本文档记录 MyWeb 当前的产品定位、技术方案、视觉基线、页面结构和后续规划。它是后续继续开发时的基准文档。
 
@@ -196,7 +196,7 @@ I'm Sikm, a grad student working on AI. I keep long-term notes here on agents, L
 
 ## 4.2 首页主体
 
-首页主体为单栏布局，全站统一 52rem（832px）中轴。
+首页主体为单栏布局，常规页面采用 52rem（832px）容器；有目录的宽屏阅读页扩展外侧留白，正文保持居中和原有宽度。
 
 自上而下：
 
@@ -206,6 +206,15 @@ I'm Sikm, a grad student working on AI. I keep long-term notes here on agents, L
 * Life：最新 2 条生活记录
 
 每个 section 头部是 eyebrow 小标签 + 小号「更多 →」文字链接。
+
+### 阅读页目录
+
+博客和生活详情页由 Astro `render(entry)` 返回的 headings 自动生成目录，优先 h2，无 h2 时回退到 h3，没有可用标题则不显示。项目详情页保持原布局。
+
+* 宽屏（>=1280px）：左侧序号目录、发丝分隔线、吸顶和当前章节提示；正文仍居中，最大宽度 48rem
+* 窄屏：正文前原生折叠目录，支持键盘展开和锚点导航
+* 不添加右侧信息栏，不改变现有暖纸色和 sans 阅读排版
+* 没有 JavaScript 时仍保留可用的目录链接；滚动跟踪和默认窄屏收起是渐进增强
 
 ## 4.3 后续栏目 / 合集
 
@@ -414,7 +423,7 @@ public/images/
 
 * Hero + 单栏名片式首页（无 Welcome Gate）
 * 全站 sans 字体（系统栈 + 自托管 MiSans）
-* 全站统一 52rem 中轴
+* 常规页面 52rem 中轴，阅读目录位于宽屏正文外侧
 * 暖纸面 editorial 视觉系统，平面列表行 + 发丝分隔线
 * 显式浅色 / 深色主题切换
 * 图标化单色社交链接入口
@@ -468,8 +477,13 @@ npm run dev
 构建：
 
 ```bash
+npm run type-check
+npm test
 npm run build
 ```
+
+Node.js 要求 `>=22.12.0`。构建工具的 Node API 类型来自开发依赖 `@types/node`，由 `tsconfig.json` 显式启用。
+GitHub 仓库为 `https://github.com/sikm-lqs/sikms-log`，SSH 远程为 `git@github.com:sikm-lqs/sikms-log.git`。
 
 预览：
 
@@ -486,6 +500,8 @@ Output directory: dist
 Production branch: main
 Production URL: https://myweb-649.pages.dev/
 ```
+
+部署绑定在 Cloudflare Pages 控制台维护；推送 `main` 后检查部署日志和线上文章，不能仅凭 push 成功判断部署成功。
 
 ---
 

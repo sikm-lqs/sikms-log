@@ -23,6 +23,8 @@ MyWeb 是一个双语个人网站，用于长期沉淀 Agent / LLM 算法方向�
 - 安装依赖：`npm install`
 - 本地开发：`npm run dev`
 - 构建检查：`npm run build`
+- 类型检查：`npm run type-check`（开发依赖 `@types/node`，显式启用 `node` 类型）
+- 目录逻辑测试：`npm test`
 - 本地预览构建结果：`npm run preview`
 - Astro CLI：`npm run astro`
 
@@ -38,6 +40,7 @@ MyWeb 是一个双语个人网站，用于长期沉淀 Agent / LLM 算法方向�
 - `writing` / `projects` / `life` 三个公开内容频道
 - Blog 入口由 `writing` 集合统一承载，包含技术文章、论文笔记和工程思考
 - 三类公开内容的列表页与详情页
+- 博客 / 生活详情页自动目录：优先 h2，无 h2 时用 h3；宽屏（>=1280px）左侧吸顶，窄屏正文前折叠，滚动标示当前章节，无标题则隐藏
 - Guestbook / Friends 中英文占位页
 - `/` 中文路由与 `/en` 英文路由
 - 基于 `translationKey` 的双语内容配对与语言切换回退
@@ -50,7 +53,7 @@ MyWeb 是一个双语个人网站，用于长期沉淀 Agent / LLM 算法方向�
 
 - 替换真实头像、项目封面和更多图片资源
 - 补充真实博客、项目和生活内容
-- 完善 GitHub / Email / 社交链接
+- 完善 Email 等联系方式（GitHub / Bilibili / X 已配置）
 - 增加 sitemap、robots、OG 等 SEO 基础能力
 - 继续打磨移动端和视觉细节
 
@@ -95,11 +98,13 @@ MyWeb 是一个双语个人网站，用于长期沉淀 Agent / LLM 算法方向�
 - 公开 Blog 入口使用 `/writing`，由 `writing` 集合承载
 - `projects` 额外包含 `status`、`stack`、`repoUrl`、`demoUrl`、`caseStudyUrl`
 - 支持语言：`zh-CN`、`en`
-- `draft: true` 的内容不会进入列表页或首页
+- `draft: true` 的内容不生成公开详情页，也不会进入列表页或首页
 - `routeSlug` 控制 URL，文件名不直接决定最终 URL
 - `translationKey` 用于中英文内容配对
 
-内容发布流程详见 `dev-docs/内容发布流程.md`。新增内容后至少运行 `npm run build`。
+内容发布流程详见 `dev-docs/内容发布流程.md`。新增内容后运行 `npm run type-check`、`npm test`、`npm run build`。
+字数统计目前仅支持文件名与 `routeSlug` 一致的 `.mdx`，不影响其他 Markdown 文件的路由生成。
+仓库远程为 `git@github.com:sikm-lqs/sikms-log.git`；按部署约定推送 `main` 后由 Cloudflare Pages 构建 `dist/`，需检查控制台部署状态。
 
 ## 路由与取数规则
 
@@ -118,7 +123,7 @@ MyWeb 是一个双语个人网站，用于长期沉淀 Agent / LLM 算法方向�
 
 ## 当前 TODO
 
-- 继续检查移动端首屏与 Blog/Projects 并排区块的视觉密度
+- 继续检查移动端首页单栏布局与长文阅读体验
 
 ## 视觉基线
 

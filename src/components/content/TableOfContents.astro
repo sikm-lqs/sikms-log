@@ -1,0 +1,91 @@
+---
+import type { MarkdownHeading } from "astro";
+import type { SiteLang } from "../../i18n/utils";
+import { ui } from "../../i18n/ui";
+
+interface Props {
+  headings: MarkdownHeading[];
+  lang: SiteLang;
+}
+
+const { headings, lang } = Astro.props;
+const label = ui[lang].labels.onThisPage;
+---
+
+<aside class="article-toc" data-article-toc>
+  <details class="toc-disclosure" open>
+    <summary>{label}<span aria-hidden="true">＋</span></summary>
+    <nav aria-label={label}>
+      <p class="toc-label" aria-hidden="true">{label}</p>
+      <ol class="toc-list">
+        {headings.map((heading, index) => (
+          <li>
+            <a href={`#${heading.slug}`}>
+              <span class="toc-number" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span>{heading.text}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  </details>
+</aside>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-article-toc]").forEach((toc) => {
+    const disclosure = toc.querySelector<HTMLDetailsElement>("details")!;
+    const desktop = window.matchMedia("(min-width: 1280px)");
+    const syncDisclosure = () => { disclosure.open = desktop.matches; };
+    syncDisclosure();
+    desktop.addEventListener("change", syncDisclosure);
+
+    const links = Array.from(toc.querySelectorAll<HTMLAnchorElement>("nav a"));
+    const sections = links.map((link) =>
+      document.getElementById(decodeURIComponent(link.hash.slice(1))),
+    );
+    let activeIndex = -1;
+    let scheduled = false;
+
+    const updateActiveSection = () => {
+      scheduled = false;
+      const header = document.querySelector(".site-header");
+      const scrollMargin = sections[0]
+        ? parseFloat(getComputedStyle(sections[0]).scrollMarginTop) || 0
+        : 0;
+      const offset = Math.max((header?.getBoundingClientRect().height ?? 64) + 32, scrollMargin) + 1;
+      let nextIndex = 0;
+      sections.forEach((section, index) => {
+        if (section && section.getBoundingClientRect().top <= offset) nextIndex = index;
+      });
+      if (nextIndex === activeIndex) return;
+      activeIndex = nextIndex;
+      links.forEach((link, index) => {
+        if (index === activeIndex) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+      // Keep the active row visible in long directories, without moving the page.
+      if (desktop.matches) {
+        const active = links[activeIndex];
+        const top = active.getBoundingClientRect().top
+          - disclosure.getBoundingClientRect().top + disclosure.scrollTop;
+        if (top < disclosure.scrollTop) disclosure.scrollTop = top;
+        else if (top + active.offsetHeight > disclosure.scrollTop + disclosure.clientHeight) {
+          disclosure.scrollTop = top + active.offsetHeight - disclosure.clientHeight;
+        }
+      }
+    };
+    const scheduleUpdate = () => {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(updateActiveSection);
+    };
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("hashchange", scheduleUpdate);
+    window.addEventListener("load", scheduleUpdate, { once: true });
+    document.fonts.ready.then(scheduleUpdate);
+    updateActiveSection();
+  });
+</script>
