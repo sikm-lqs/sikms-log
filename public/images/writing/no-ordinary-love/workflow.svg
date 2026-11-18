@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">《非凡之爱》制作流程</title>
+  <desc id="desc">角色设计和原片拆解汇合到逐镜物料，经 ComfyUI 生成和人工验收。通过的镜头进入剪辑，有问题的镜头返修后重跑。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#87685b"/>
+    </marker>
+  </defs>
+  <rect width="720" height="420" rx="22" fill="#faf2e9"/>
+  <g fill="#fffaf5" stroke="#d8c5b4">
+    <rect x="65" y="26" width="240" height="64" rx="10"/>
+    <rect x="415" y="26" width="240" height="64" rx="10"/>
+    <rect x="210" y="125" width="300" height="59" rx="10"/>
+    <rect x="248" y="218" width="224" height="59" rx="10"/>
+    <rect x="248" y="326" width="224" height="64" rx="10"/>
+    <rect x="24" y="326" width="153" height="64" rx="10"/>
+  </g>
+  <rect x="536" y="326" width="160" height="64" rx="10" fill="#f3dcd4" stroke="#d6ada1"/>
+  <g fill="none" stroke="#87685b" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M185 90v17h125v16"/><path d="M535 90v17H410v16"/>
+    <path d="M360 184v32"/><path d="M360 277v47"/>
+    <path d="M248 358h-69"/><path d="M472 358h62"/>
+    <path d="M616 326v-78H474" stroke-dasharray="5 5"/>
+  </g>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#342723" font-size="20" font-weight="650">
+    <text x="185" y="53">角色设计</text><text x="535" y="53">原片拆解</text>
+    <text x="360" y="150">逐镜准备物料</text><text x="360" y="243">ComfyUI R2V</text>
+    <text x="360" y="353">人工看片</text><text x="100" y="353">拼接成片</text><text x="616" y="353">修问题镜头</text>
+  </g>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#654a40" font-size="15">
+    <text x="185" y="76">角色参考、三视图、表情</text><text x="535" y="76">切点、动作、构图</text>
+    <text x="360" y="172">剧本、参考帧、提示词、时长</text><text x="360" y="265">逐镜提交，本地批量生成</text>
+    <text x="360" y="376">检查人物、接触和节拍</text><text x="100" y="376">画面与原音乐</text>
+    <text x="616" y="376">改拆解、图或文字</text><text x="555" y="237">单镜重跑</text>
+    <text x="212" y="347">通过</text><text x="503" y="347">有问题</text>
+  </g>
+</svg>
