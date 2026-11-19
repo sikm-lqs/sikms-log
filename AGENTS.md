@@ -58,6 +58,8 @@ Implemented:
 - Icon-based social links; the GitHub profile is `https://github.com/sikm-lqs`
 - Placeholder avatar and cover images
 
+Projects currently has no entries: the MyWeb and LogAgent demos (both languages) were removed because they were not real portfolio projects. Keep the collection/routes; do not restore demos to fill it.
+
 Known next priorities:
 
 - Replace placeholder profile and cover images with real assets
@@ -114,6 +116,7 @@ Content collections are defined in `src/content.config.ts`.
 
 When adding content, follow `dev-docs/内容发布流程.md` and run `npm run type-check`, `npm test`, and `npm run build`.
 Word counts currently require an `.mdx` filename matching `routeSlug`; other Markdown filenames still generate valid routes.
+After removing every entry from a collection, run `npm run astro -- sync --force` before rebuilding to clear stale content-cache records.
 Remote repository: `git@github.com:sikm-lqs/sikms-log.git`. The documented deployment flow is Cloudflare Pages building `dist/` on pushes to `main`; verify the deployment in the Pages dashboard.
 
 ## Routing

@@ -32,6 +32,8 @@ MyWeb 是一个双语个人网站，用于长期沉淀 Agent / LLM 算法方向�
 
 ## 当前进展
 
+当前 Projects 集合为空：MyWeb 与 LogAgent 的中英文 demo 已移除，不代表作者实际项目；保留集合与路由，不用占位项目填充。删除某集合全部条目后，先运行 `npm run astro -- sync --force`，再构建，以清理旧内容缓存。
+
 已完成：
 
 - 中英文首页（hero + Writing / Projects / Life 单栏布局）
